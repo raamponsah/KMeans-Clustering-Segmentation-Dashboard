@@ -123,6 +123,9 @@ if selected_option == "Clustering":
             kmeans = KMeans(n_clusters=k, random_state=42)
             df['Cluster'] = kmeans.fit_predict(scaled_data)
 
+
+         
+
             # Display clustered data
             st.markdown("### Clustered Data")
             st.dataframe(df.head())
@@ -130,10 +133,7 @@ if selected_option == "Clustering":
             st.session_state.clustered_df = df  # Store the clustered DataFrame in session state
             st.session_state.k = k  # Store the number of clusters in session state
 
-            #kmeans labels
-            st.markdown("### KMeans Labels")
-            labels_df = pd.DataFrame(kmeans.labels_, columns=['Cluster'])
-            st.dataframe(labels_df)
+        
 
             #kmeans Cluster Centers
             st.markdown("### KMeans Cluster Centers")
@@ -153,6 +153,20 @@ if selected_option == "Clustering":
             centroids_ranges = centroids_ranges.sort_values(by='Importance', ascending=False) 
             st.dataframe(centroids_ranges)
             st.dataframe(centroids_ranges.select_dtypes(include=['number']).std())
+
+
+            #value counts of clusters per cluster and feature
+            st.markdown("### Value Counts of Clusters")
+            cluster_counts = df['Cluster'].value_counts().reset_index()
+            cluster_counts.columns = ['Features','Cluster', 'Count']
+            st.dataframe(cluster_counts)
+        
+               #Group data by cluster and calculate mean values for each cluster
+            st.markdown("### Cluster Counts within Each Feature")
+
+            summary_table = df.groupby('Cluster')[features].count().T
+            st.dataframe(summary_table)
+
 
 
 if selected_option == "Visualization":
