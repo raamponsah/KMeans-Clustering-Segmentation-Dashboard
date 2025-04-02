@@ -104,7 +104,7 @@ if selected_option == "Clustering":
             ax.set_xlabel("Number of Clusters (k)")
             ax.set_ylabel("Inertia")
 
-            print(type(k_values))
+           
             sns.lineplot(x=list(k_values), y=inertias, markers='o', ax=ax)
             plt.xticks(k_values)
             st.pyplot(fig)
@@ -132,8 +132,15 @@ if selected_option == "Clustering":
 
             #kmeans labels
             st.markdown("### KMeans Labels")
+            labels_df = pd.DataFrame(kmeans.labels_, columns=['Cluster'])
+            st.dataframe(labels_df)
+
+            #kmeans Cluster Centers
+            st.markdown("### KMeans Cluster Centers")
             clus_df = pd.DataFrame(kmeans.cluster_centers_, columns=features)
             st.dataframe(clus_df)
+
+
 
             #feature importance using centroids_min and centroids_max
             st.markdown("### Feature Importance")
