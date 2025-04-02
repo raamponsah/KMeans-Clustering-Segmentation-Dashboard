@@ -1,3 +1,4 @@
+import io
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -39,12 +40,16 @@ if selected_option == "Data Exploration":
         st.dataframe(df.head())
 
         # Display basic statistics
-        st.markdown("### Basic Statistics")
+        st.markdown("### Descriptive Statistics")
         st.write(df.describe())
 
         # Display data types
         st.markdown("### Data Types")
         st.write(df.dtypes)
+
+        st.markdown("### Data Shape")
+        st.write(f"Number of rows: {df.shape[0]}")
+
 
         # Display missing values
         st.markdown("### Missing Values")
@@ -63,8 +68,21 @@ if selected_option == "Clustering":
         if len(features) < 2:
             st.warning("Please select at least two features for clustering.")
         else:
+            st.write(df[features].head())  # Display the selected features
+            # Check if the selected features are numeric
+            numeric_features = df[features].select_dtypes(include=[np.number]).columns.tolist()
+            if len(numeric_features) < 2:
+                st.warning("Please select at least two numeric features for clustering.")
+            else:
+                # Check if the selected features are numeric
+                numeric_features = df[features].select_dtypes(include=[np.number]).columns.tolist()
+                if len(numeric_features) < 2:
+                    st.warning("Please select at least two numeric features for clustering.")
+                else:
+                    # Display the selected features
+                    st.write(df[numeric_features].head())
             # Standardize the data (important for KMeans: this ensures that all features contribute equally to the distance calculations)
-            #alsor remember that with KMeans, the data should be numeric
+            #also remember that with KMeans, the data should be numeric
             # Check if the selected features are numeric
             # numeric_features = df[features].select_dtypes(include=[np.number]).columns.tolist()
             st.markdown("### Data Standardization")
@@ -85,6 +103,8 @@ if selected_option == "Clustering":
             ax.set_title("Elbow Method for Optimal k")
             ax.set_xlabel("Number of Clusters (k)")
             ax.set_ylabel("Inertia")
+
+            print(type(k_values))
             sns.lineplot(x=list(k_values), y=inertias, markers='o', ax=ax)
             plt.xticks(k_values)
             st.pyplot(fig)
