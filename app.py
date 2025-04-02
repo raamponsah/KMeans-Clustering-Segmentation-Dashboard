@@ -145,6 +145,8 @@ if selected_option == "Clustering":
             centroids_ranges['Importance'] = centroids_ranges['Max'] - centroids_ranges['Min']
             centroids_ranges = centroids_ranges.sort_values(by='Importance', ascending=False) 
             st.dataframe(centroids_ranges)
+            st.dataframe(centroids_ranges.select_dtypes(include=['number']).std())
+
 
 if selected_option == "Visualization":
     if 'clustered_df' not in st.session_state:
