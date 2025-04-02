@@ -158,14 +158,14 @@ if selected_option == "Clustering":
             #value counts of clusters per cluster and feature
             st.markdown("### Value Counts of Clusters")
             cluster_counts = df['Cluster'].value_counts().reset_index()
-            cluster_counts.columns = ['Features','Cluster', 'Count']
+            cluster_counts.columns = ['Cluster', 'Count']
             st.dataframe(cluster_counts)
         
                #Group data by cluster and calculate mean values for each cluster
-            st.markdown("### Cluster Counts within Each Feature")
+            # st.markdown("### Cluster Counts within Each Feature")
 
-            summary_table = df.groupby('Cluster')[features].count().T
-            st.dataframe(summary_table)
+            # summary_table = df.groupby('Cluster')[features].count().T
+            # st.dataframe(summary_table)
 
 
 
